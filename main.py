@@ -4,8 +4,30 @@ import pygame
 #remember all degrees are in radians
 #just some usefull functions im going to use later
 def RadianToDegree(radian):
+	"""
+ 	Takes an input as a radian, and outputs it in degrees.
+  	It just makes ur life easier
+
+    	example:
+     	-------------------
+	>>> RadianToDegree(π)
+ 	180
+	-------------------
+ 	You should also see DegreeToRadian
+  	"""
 	return radian*57.2957795131
 def DegreeToRadian(degree):
+	"""
+ 	Takes an input as a degree, and outputs it in radians.
+  	It just makes ur life easier
+
+    	example:
+     	-------------------
+	>>> DegreeToRadian(180)
+ 	π
+	-------------------
+ 	You should also see RadianToDegree
+  	"""
 	return degree*0.01745329251
 def GetAngle(pos):
 	return math.atan2(pos[0], pos[1])
