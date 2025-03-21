@@ -1,152 +1,57 @@
-import pygame
-import os
-pygame.init()
-#pls help
-class Player:
-    def __init__(self, health, stamina, velocity):
-        self.health=health
-        self.maxStamina=stamina
-        self.stamina=stamina
-        self.velocity=velocity
-        self.momentum=[0, 0]
-        self.position=[0, 0]
-    def move(direction):
-        if sprinting:
-            
-        if direction="w":
-            self.momentum[1]+=self.velocity
-            
-class Shop:
-    def __init__(self):
-        pass
-class Game:
-    def __init__(self, scaling=1, framerate=60):
-        if pygame.display.Info().current_w/pygame.display.Info().current_h>750/500:
-            self.screenHeight=pygame.display.Info().current_h
-            self.screenWidth=self.screenHeight*1.5
-            self.scaling=scaling*self.screenHeight/500
-        else:
-            self.screenWidth=pygame.display.Info().current_w
-            self.screenHeight=self.screenWidth*2/3
-            self.scaling=scaling*self.screenWidth/750
-        self.ratFlipped=False
-        self.rat=pygame.image.load("assets/transparentrat.png")
-        self.timeForOneFrame=1/framerate
-        self.framerate=framerate
-        self.font = pygame.font.SysFont('consolas', 20)
-        self.enterShopText = self.font.render("Press E to enter or close the shop", 1, (0,0,0))
-        self.rat=Player(10, 100, 5)
-        pygame.display.set_caption("rat sim dev version")
-        print("right-shift to run, and Q to recover stamina\nhope you enjoy!")
-    def mainLoop(self):
-        while True:
-            
-#constants and variables
-vel = 5
-openedshop = False
-
-width = 750
-height = 500
-window = pygame.display.set_mode((width,height))
-clock = pygame.time.Clock()
-run = True
-sprint = True
-stamina = 100
-
-#pygame.mixer.music.load("assets/shop-decode.mp3")
-shoprat = pygame.image.load("assets/shoprat.png")
-shoprat = pygame.transform.scale(shoprat, (105, 75))
-def shopicon():
-    window.blit(shoprat, (200, 130))
-
-font = pygame.font.SysFont('consolas', 20)
-
-rat = pygame.image.load("assets/transparentrat.png")
-rat = pygame.transform.scale(rat, (125,75))
-flipratimg = pygame.transform.flip(rat, True, False)
-pygame.display.set_caption("rat sim dev version")
-print("right-shift to run, and Q to recover stamina\nhope you enjoy!")
-entshoptext = font.render("Press E to enter or close the shop", 1, (0,0,0))
-
-x = (750 * 0.45)
-y = (500 * 0.45)
-bg = pygame.image.load("assets/background.png")
-bg = pygame.transform.scale(bg, (width,height))
-def ratty():
-    window.blit(bg, (0,0))
-
-def draw(x,y, openedshop):
-    ratty()
-    keys = pygame.key.get_pressed()
-    if openedshop == False:
-            shopicon()
-            if x >= 140 and x <= 240 and y >= 90 and y <= 145:
-                window.blit(entshoptext, (x+100, y+100))
-                if keys[pygame.K_e]:
-                    openedshop = True
-                    os.system("shop-test.py")
-                    vel = 0
-                    if keys[pygame.K_e]:
-                        openedshop = False
-    window.blit(rat, (x,y))
-    staminatext = font.render("stamina: " + str(int(stamina)), 1, (0,0,0))
-    window.blit(staminatext, (25, 460))
-
-    pygame.display.flip()
-
-draw(x,y, openedshop)
-pygame.display.flip()
-
-while run:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-
-    #simple keybinds and stamina
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_RSHIFT] and sprint == True:
-        vel = 7.5
-        stamina -= 0.2
-    else:
-        vel = 5
-    
-    if stamina <= 0:
-        vel = 3
-        sprint = False
-    else:
-        sprint = True
-
-    if keys[pygame.K_w] or keys[pygame.K_UP] and openedshop == False:
-        y-=vel
-        draw(x,y, openedshop)
-        if (y <= -60):
-            y = 530
-
-    if keys[pygame.K_s] or keys[pygame.K_DOWN] and openedshop == False:
-        y+=vel
-        draw(x,y, openedshop)
-        if (y >= 540):
-            y = -40
-
-    if keys[pygame.K_a] or keys[pygame.K_LEFT] and openedshop == False:
-        rat = flipratimg
-        x-=vel
-        draw(x,y, openedshop)
-        if (x <= -150):
-            x = 730
-
-    if keys[pygame.K_d] or keys[pygame.K_RIGHT] and openedshop == False:
-        rat = pygame.image.load("assets/transparentrat.png")
-        rat = pygame.transform.scale(rat, (125,75))
-        x+=vel
-        draw(x,y, openedshop)
-        if (x >= 750):
-            x = -100
-    
-    #add stamina
-    if keys[pygame.K_q] and stamina < 100:
-        stamina += 0.1
-        draw(x,y, openedshop)
-        
-    clock.tick(60)
-    pygame.display.flip()
+H=min
+G=False
+E=True
+C=int
+import pygame as B,os
+class L:
+	def __init__(A,x,y,image,flip_image):B=image;A.x=x;A.y=y;A.image=B;A.normal_image=B;A.flip_image=flip_image;A.vel_x=0;A.vel_y=0
+	def update_image(A,facing_right=E):A.image=A.normal_image if facing_right else A.flip_image
+class A:
+	def __init__(A,base_width=750,base_height=500,scale=None):
+		J=scale;I=base_height;F=base_width;B.init()
+		if J is None:K=B.display.Info();M=K.current_w/F;N=K.current_h/I;J=H(M,N)
+		A.scale=J;A.width=C(F*A.scale);A.height=C(I*A.scale);A.window=B.display.set_mode((A.width,A.height),B.FULLSCREEN);B.display.set_caption('Rat Sim dev Version');A.clock=B.time.Clock();A.max_speed=600;A.acceleration=800;A.deceleration=900;A.current_vel=0;A.run=E;A.sprint=E;A.stamina=100;A.openedshop=G;A.font=B.font.SysFont('consolas',C(20*A.scale));A.bg=B.image.load('assets/background.png');A.bg=B.transform.scale(A.bg,(A.width,A.height));A.shoprat=B.image.load('assets/shoprat.png');A.shoprat=B.transform.scale(A.shoprat,(C(105*A.scale),C(75*A.scale)));A.shop_icon_pos=C(200*A.scale),C(130*A.scale);A.entshoptext=A.font.render('Press E to enter or close the shop',E,(0,0,0));D=B.image.load('assets/transparentrat.png');O=C(125*A.scale);P=C(75*A.scale);D=B.transform.scale(D,(O,P));Q=B.transform.flip(D,E,G);A.player=L(C(F*.45*A.scale),C(I*.45*A.scale),D,Q);print('Right-shift to sprint, Q to regain stamina.')
+	def draw(A):
+		A.window.blit(A.bg,(0,0))
+		if not A.openedshop:
+			A.window.blit(A.shoprat,A.shop_icon_pos)
+			if C(140*A.scale)<=A.player.x<=C(240*A.scale)and C(90*A.scale)<=A.player.y<=C(145*A.scale):A.window.blit(A.entshoptext,(A.player.x+C(100*A.scale),A.player.y+C(100*A.scale)))
+		A.window.blit(A.player.image,(A.player.x,A.player.y));D=A.font.render('Stamina: '+str(C(A.stamina)),E,(0,0,0));A.window.blit(D,(C(25*A.scale),A.height-C(40*A.scale)));B.display.flip()
+	def handle_keys(A,dt):
+		C=dt;D=B.key.get_pressed();F=A.max_speed
+		if D[B.K_RSHIFT]and A.sprint and A.stamina>0:F*=1.5;A.stamina-=20*C
+		elif A.stamina<=0:F*=.6
+		if D[B.K_w]or D[B.K_UP]:A.player.vel_y-=A.acceleration*C
+		elif D[B.K_s]or D[B.K_DOWN]:A.player.vel_y+=A.acceleration*C
+		else:A.apply_friction_y(C)
+		if D[B.K_a]or D[B.K_LEFT]:A.player.update_image(facing_right=G);A.player.vel_x-=A.acceleration*C
+		elif D[B.K_d]or D[B.K_RIGHT]:A.player.update_image(facing_right=E);A.player.vel_x+=A.acceleration*C
+		else:A.apply_friction_x(C)
+		A.player.vel_x=max(-F,H(F,A.player.vel_x));A.player.vel_y=max(-F,H(F,A.player.vel_y));A.player.x+=A.player.vel_x*C;A.player.y+=A.player.vel_y*C
+		if A.player.x<=-150*A.scale:A.player.x=A.width
+		elif A.player.x>=A.width:A.player.x=-150*A.scale
+		if A.player.y<=-60*A.scale:A.player.y=A.height
+		elif A.player.y>=A.height:A.player.y=-60*A.scale
+		if D[B.K_q]and A.stamina<100:A.stamina+=10*C
+	def apply_friction_x(A,dt):
+		if A.player.vel_x>0:
+			A.player.vel_x-=A.deceleration*dt
+			if A.player.vel_x<0:A.player.vel_x=0
+		elif A.player.vel_x<0:
+			A.player.vel_x+=A.deceleration*dt
+			if A.player.vel_x>0:A.player.vel_x=0
+	def apply_friction_y(A,dt):
+		if A.player.vel_y>0:
+			A.player.vel_y-=A.deceleration*dt
+			if A.player.vel_y<0:A.player.vel_y=0
+		elif A.player.vel_y<0:
+			A.player.vel_y+=A.deceleration*dt
+			if A.player.vel_y>0:A.player.vel_y=0
+	def game_loop(A):
+		while A.run:
+			C=A.clock.tick(60)/1e3
+			for D in B.event.get():
+				if D.type==B.QUIT:A.run=G
+			A.handle_keys(C);A.draw()
+		B.quit()
+if __name__=='__main__':D=A();D.game_loop()
